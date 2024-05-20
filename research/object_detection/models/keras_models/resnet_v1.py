@@ -304,7 +304,7 @@ def resnet_v1_50(batchnorm_training,
       min_depth=min_depth,
       depth_multiplier=depth_multiplier)
   return tf.keras.applications.resnet.ResNet50(
-      layers=layers_override, **kwargs)
+      **kwargs)
 
 
 def resnet_v1_101(batchnorm_training,
