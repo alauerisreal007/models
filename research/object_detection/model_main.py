@@ -159,7 +159,7 @@ def main():
 
     train_dataset = load_train_dataset(FLAGS.pipeline_config_path, FLAGS.sample_1_of_n_eval_on_train_examples)
     eval_dataset = load_eval_dataset(FLAGS.pipeline_config_path, FLAGS.sample_1_of_n_eval_examples)
-    steps_per_epoch = FLAGS.num_train_steps  # Corrected flag name
+    steps_per_epoch = FLAGS.num_train_steps
 
     model = create_model()
     model.compile(optimizer='adam',
