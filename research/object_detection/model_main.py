@@ -108,7 +108,6 @@
 # if __name__ == '__main__':
 #   tf.app.run()
 
-from __future__ import absolute_import, division, print_function
 from absl import flags
 import tensorflow as tf
 from tensorflow.keras import layers, models
@@ -124,7 +123,6 @@ flags.DEFINE_boolean('run_once', False, 'If running in eval-only mode, whether t
 flags.DEFINE_integer('max_eval_retries', 0, 'If running continuous eval, the maximum number of retries upon encountering tf.errors.InvalidArgumentError.')
 FLAGS = flags.FLAGS
 
-# Define the model using tf.keras
 def create_model():
     model = models.Sequential([
         layers.Conv2D(32, (3, 3), activation='relu', input_shape=(128, 128, 3)),
@@ -138,15 +136,12 @@ def create_model():
     ])
     return model
 
-# Training function
 def train_model(model, train_dataset, epochs, steps_per_epoch):
     model.fit(train_dataset, epochs=epochs, steps_per_epoch=steps_per_epoch)
 
-# Evaluation function
 def evaluate_model(model, eval_dataset, steps):
     return model.evaluate(eval_dataset, steps=steps)
 
-# Placeholder functions for loading data
 def load_train_dataset(pipeline_config_path, sample_1_of_n_eval_on_train_examples):
     # Implement your data loading logic here
     return None  # Replace with actual dataset
@@ -155,33 +150,27 @@ def load_eval_dataset(pipeline_config_path, sample_1_of_n_eval_examples):
     # Implement your data loading logic here
     return None  # Replace with actual dataset
 
-def main(unused_argv):
+def main():
     flags.mark_flag_as_required('model_dir')
     flags.mark_flag_as_required('pipeline_config_path')
 
-    # Load your data using pipeline_config_path or custom data loading functions
     train_dataset = load_train_dataset(FLAGS.pipeline_config_path, FLAGS.sample_1_of_n_eval_on_train_examples)
     eval_dataset = load_eval_dataset(FLAGS.pipeline_config_path, FLAGS.sample_1_of_n_eval_examples)
-    steps_per_epoch = FLAGS.num_train_steps  # Define steps per epoch
+    steps_per_epoch = FLAGS.num_train_steps
 
-    # Create and compile the model
     model = create_model()
     model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
 
-    # Train the model
     train_model(model, train_dataset, epochs=10, steps_per_epoch=steps_per_epoch)
 
-    # Evaluate the model if needed
     if FLAGS.checkpoint_dir:
         if FLAGS.eval_training_data:
-            # Evaluate on training data
             results = evaluate_model(model, train_dataset, steps=steps_per_epoch)
         else:
-            # Evaluate on validation data
             results = evaluate_model(model, eval_dataset, steps=steps_per_epoch)
         print(f"Evaluation results: {results}")
 
 if __name__ == '__main__':
-    tf.app.run()
+    main()
