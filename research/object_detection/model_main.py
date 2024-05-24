@@ -111,7 +111,7 @@
 from absl import flags
 import tensorflow as tf
 import sys
-from tensorflow.keras import layers, models
+from tensorflow.keras import layers, models, Input
 
 flags.DEFINE_string('model_dir', None, 'Path to output model directory where event and checkpoint files will be written.')
 flags.DEFINE_string('pipeline_config_path', None, 'Path to pipeline config file.')
@@ -126,16 +126,16 @@ flags.DEFINE_integer('num_eval_steps', None, 'Number of evaluation steps.')  # N
 FLAGS = flags.FLAGS
 
 def create_model():
-    model = models.Sequential([
-        layers.Conv2D(32, (3, 3), activation='relu', input_shape=(128, 128, 3)),
-        layers.MaxPooling2D((2, 2)),
-        layers.Conv2D(64, (3, 3), activation='relu'),
-        layers.MaxPooling2D((2, 2)),
-        layers.Conv2D(64, (3, 3), activation='relu'),
-        layers.Flatten(),
-        layers.Dense(64, activation='relu'),
-        layers.Dense(10, activation='softmax')
-    ])
+    inputs = Input(shape=(128, 128, 3))
+    x = layers.Conv2D(32, (3, 3), activation='relu')(inputs)
+    x = layers.MaxPooling2D((2, 2))(x)
+    x = layers.Conv2D(64, (3, 3), activation='relu')(x)
+    x = layers.MaxPooling2D((2, 2))(x)
+    x = layers.Conv2D(64, (3, 3), activation='relu')(x)
+    x = layers.Flatten()(x)
+    x = layers.Dense(64, activation='relu')(x)
+    outputs = layers.Dense(10, activation='softmax')(x)
+    model = models.Model(inputs=inputs, outputs=outputs)
     return model
 
 def train_model(model, train_dataset, epochs, steps_per_epoch):
@@ -161,6 +161,10 @@ def main():
     train_dataset = load_train_dataset(FLAGS.pipeline_config_path, FLAGS.sample_1_of_n_eval_on_train_examples)
     eval_dataset = load_eval_dataset(FLAGS.pipeline_config_path, FLAGS.sample_1_of_n_eval_examples)
     steps_per_epoch = FLAGS.num_train_steps
+
+    if train_dataset is None:
+        print("Error: Train dataset is None.")
+        return
 
     model = create_model()
     model.compile(optimizer='adam',
