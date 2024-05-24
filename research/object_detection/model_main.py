@@ -21,7 +21,8 @@ from __future__ import print_function
 from absl import flags
 
 import tensorflow.compat.v1 as tf
-from tensorflow.compat.v1 import estimator as tf_estimator
+# from tensorflow.compat.v1 import estimator as tf_estimator
+from tensorflow.estimator import Estimator as tf_estimator
 
 from object_detection import model_lib
 
