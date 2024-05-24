@@ -20,9 +20,14 @@ from __future__ import print_function
 
 from absl import flags
 
-import tensorflow.compat.v1 as tf
+# import tensorflow.compat.v1 as tf
 # from tensorflow.compat.v1 import estimator as tf_estimator
-from tensorflow.estimator import Estimator as tf_estimator
+# from tensorflow.estimator import Estimator as tf_estimator
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()  # Use this to disable TensorFlow 2.x behavior if your code is written for TensorFlow 1.x
+
+from tensorflow_estimator import estimator as tf_estimator
+
 
 from object_detection import model_lib
 
