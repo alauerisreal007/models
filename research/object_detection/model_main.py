@@ -122,49 +122,6 @@ flags.DEFINE_integer('sample_1_of_n_eval_on_train_examples', 5, 'Will sample one
 flags.DEFINE_string('checkpoint_dir', None, 'Path to directory holding a checkpoint.')
 flags.DEFINE_boolean('run_once', False, 'If running in eval-only mode, whether to run just one round of eval vs running continuously.')
 flags.DEFINE_integer('max_eval_retries', 0, 'If running continuous eval, the maximum number of retries upon encountering tf.errors.InvalidArgumentError.')
-FLAGS = flags.FLAGS
-
-def create_model():
-    model = models.Sequential([
-        layers.Conv2D(32, (3, 3), activation='relu', input_shape=(128, 128, 3)),
-        layers.MaxPooling2D((2, 2)),
-        layers.Conv2D(64, (3, 3), activation='relu'),
-        layers.MaxPooling2D((2, 2)),
-        layers.Conv2D(64, (3, 3), activation='relu'),
-        layers.Flatten(),
-        layers.Dense(64, activation='relu'),
-        layers.Dense(10, activation='softmax')
-    ])
-    return model
-
-def train_model(model, train_dataset, epochs, steps_per_epoch):
-    model.fit(train_dataset, epochs=epochs, steps_per_epoch=steps_per_epoch)
-
-def evaluate_model(model, eval_dataset, steps):
-    return model.evaluate(eval_dataset, steps=steps)
-
-def load_train_dataset(pipeline_config_path, sample_1_of_n_eval_on_train_examples):
-    # Implement your data loading logic here
-    return None  # Replace with actual dataset
-
-def load_eval_dataset(pipeline_config_path, sample_1_of_n_eval_examples):
-    # Implement your data loading logic here
-    return None  # Replace with actual dataset
-
-from absl import flags
-import tensorflow as tf
-import sys
-from tensorflow.keras import layers, models
-
-flags.DEFINE_string('model_dir', None, 'Path to output model directory where event and checkpoint files will be written.')
-flags.DEFINE_string('pipeline_config_path', None, 'Path to pipeline config file.')
-flags.DEFINE_integer('num_train_steps', None, 'Number of train steps.')
-flags.DEFINE_boolean('eval_training_data', False, 'If training data should be evaluated for this job.')
-flags.DEFINE_integer('sample_1_of_n_eval_examples', 1, 'Will sample one of every n eval input examples.')
-flags.DEFINE_integer('sample_1_of_n_eval_on_train_examples', 5, 'Will sample one of every n train input examples for evaluation.')
-flags.DEFINE_string('checkpoint_dir', None, 'Path to directory holding a checkpoint.')
-flags.DEFINE_boolean('run_once', False, 'If running in eval-only mode, whether to run just one round of eval vs running continuously.')
-flags.DEFINE_integer('max_eval_retries', 0, 'If running continuous eval, the maximum number of retries upon encountering tf.errors.InvalidArgumentError.')
 flags.DEFINE_integer('num_eval_steps', None, 'Number of evaluation steps.')  # New flag
 FLAGS = flags.FLAGS
 
