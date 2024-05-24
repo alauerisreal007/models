@@ -110,6 +110,7 @@
 
 from absl import flags
 import tensorflow as tf
+import sys
 from tensorflow.keras import layers, models
 
 flags.DEFINE_string('model_dir', None, 'Path to output model directory where event and checkpoint files will be written.')
@@ -151,8 +152,10 @@ def load_eval_dataset(pipeline_config_path, sample_1_of_n_eval_examples):
     return None  # Replace with actual dataset
 
 def main():
+    # Parse the flags before accessing them
     flags.mark_flag_as_required('model_dir')
     flags.mark_flag_as_required('pipeline_config_path')
+    FLAGS(sys.argv)
 
     train_dataset = load_train_dataset(FLAGS.pipeline_config_path, FLAGS.sample_1_of_n_eval_on_train_examples)
     eval_dataset = load_eval_dataset(FLAGS.pipeline_config_path, FLAGS.sample_1_of_n_eval_examples)
@@ -171,6 +174,7 @@ def main():
         else:
             results = evaluate_model(model, eval_dataset, steps=steps_per_epoch)
         print(f"Evaluation results: {results}")
+
 
 if __name__ == '__main__':
     main()
