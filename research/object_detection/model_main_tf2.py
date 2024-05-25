@@ -26,7 +26,7 @@ python model_main_tf2.py -- \
   --pipeline_config_path=$PIPELINE_CONFIG_PATH \
   --alsologtostderr
 """
-from absl import flags
+from absl import flags, app
 import tensorflow.compat.v2 as tf
 from object_detection import model_lib_v2
 
@@ -111,4 +111,4 @@ def main(unused_argv):
           record_summaries=FLAGS.record_summaries)
 
 if __name__ == '__main__':
-  tf.compat.v1.app.run()
+  app.run(main)

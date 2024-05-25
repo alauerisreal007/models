@@ -21,7 +21,7 @@ from __future__ import print_function
 import functools
 
 import tensorflow.compat.v1 as tf
-from tensorflow.compat.v1 import estimator as tf_estimator
+from tensorflow import estimator as tf_estimator
 from object_detection.builders import dataset_builder
 from object_detection.builders import image_resizer_builder
 from object_detection.builders import model_builder
