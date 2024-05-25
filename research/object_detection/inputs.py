@@ -20,7 +20,9 @@ from __future__ import print_function
 
 import functools
 
+# import tensorflow.compat.v1 as tf
 import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from tensorflow import estimator as tf_estimator
 from object_detection.builders import dataset_builder
 from object_detection.builders import image_resizer_builder
