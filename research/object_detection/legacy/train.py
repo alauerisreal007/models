@@ -53,10 +53,12 @@ from object_detection.builders import graph_rewriter_builder
 from object_detection.builders import model_builder
 from object_detection.legacy import trainer
 from object_detection.utils import config_util
+from absl import app, flags
+from object_detection import model_lib_v2
 
 tf.logging.set_verbosity(tf.logging.INFO)
 
-flags = tf.app.flags
+FLAGS = flags.FLAGS
 flags.DEFINE_string('master', '', 'Name of the TensorFlow master to use.')
 flags.DEFINE_integer('task', 0, 'task id')
 flags.DEFINE_integer('num_clones', 1, 'Number of clones to deploy per worker.')
@@ -83,7 +85,7 @@ flags.DEFINE_string('input_config_path', '',
 flags.DEFINE_string('model_config_path', '',
                     'Path to a model_pb2.DetectionModel config file.')
 
-FLAGS = flags.FLAGS
+
 
 
 @deprecated(None, 'Use object_detection/model_main.py.')
@@ -183,4 +185,4 @@ def main(_):
 
 
 if __name__ == '__main__':
-  tf.app.run()
+  app.run(main)
