@@ -162,7 +162,7 @@ def _ensure_model_is_built(model, input_dataset, unpad_groundtruth_tensors):
 
   @tf.function
   def _dummy_computation_fn(features, labels):
-    model._is_training = False  # pylint: disable=protected-access
+    model._is_training = False
     tf.keras.backend.set_learning_phase(False)
 
     labels = model_lib.unstack_batch(
