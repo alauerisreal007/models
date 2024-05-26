@@ -176,7 +176,6 @@ def mobilenet_v2_fpn(channel_means=None, channel_stds=None, bgr_ordering=False,
   """The MobileNetV2+FPN backbone for CenterNet."""
   
   network = mobilenet_v2.mobilenet_v2(
-      input_shape=(224, 224, 3),
       alpha=depth_multiplier,
       include_top=False,
       weights='imagenet' if depth_multiplier == 1.0 else None)  # Adjust weights argument
