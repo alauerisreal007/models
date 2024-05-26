@@ -475,7 +475,7 @@ class ModelBuilderTF2Test(
         num_classes: 10
         feature_extractor {
           type: "mobilenet_v2_fpn"
-          depth_multiplier: 2.0
+          depth_multiplier: 1.0
           use_separable_conv: true
           upsampling_interpolation: "bilinear"
         }
