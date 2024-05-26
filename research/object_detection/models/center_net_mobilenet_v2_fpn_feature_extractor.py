@@ -161,20 +161,8 @@ class CenterNetMobileNetV2FPNFeatureExtractor(
 #       bgr_ordering=bgr_ordering,
 #       use_separable_conv=use_separable_conv,
 #       upsampling_interpolation=upsampling_interpolation)
-def mobilenet_v2_fpn(channel_means=None, channel_stds=None, bgr_ordering=False,
-                     use_separable_conv=False, depth_multiplier=1.0,
-                     upsampling_interpolation='nearest', **kwargs):
+def mobilenet_v2_fpn(alpha=1.0):
   """The MobileNetV2+FPN backbone for CenterNet."""
   # Set to batchnorm_training to True for now.
-  network = mobilenet_v2.mobilenet_v2(
-      alpha=depth_multiplier,
-      include_top=False,
-      weights='imagenet' if depth_multiplier == 1.0 else None)
-  
-  return CenterNetMobileNetV2FPNFeatureExtractor(
-      network,
-      channel_means=channel_means,
-      channel_stds=channel_stds,
-      bgr_ordering=bgr_ordering,
-      use_separable_conv=use_separable_conv,
-      upsampling_interpolation=upsampling_interpolation)
+  network = mobilenet_v2.mobilenet_v2(alpha=alpha)
+  return network
