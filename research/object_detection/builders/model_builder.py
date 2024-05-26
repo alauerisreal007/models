@@ -1204,6 +1204,7 @@ def _build_center_net_feature_extractor(feature_extractor_config, is_training):
           list(feature_extractor_config.channel_stds),
       'bgr_ordering':
           feature_extractor_config.bgr_ordering,
+    'is_training': is_training
   }
   if feature_extractor_config.HasField('depth_multiplier'):
     kwargs.update({
