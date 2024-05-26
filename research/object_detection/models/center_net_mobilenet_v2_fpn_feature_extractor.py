@@ -168,16 +168,13 @@ class CenterNetMobileNetV2FPNFeatureExtractor(
 #   network = mobilenet_v2.mobilenet_v2(alpha=alpha)
 #   return network
 
-from object_detection.models.keras_models import mobilenet_v2
-
 def mobilenet_v2_fpn(channel_means=None, channel_stds=None, bgr_ordering=False,
                      use_separable_conv=False, depth_multiplier=1.0,
                      upsampling_interpolation='nearest', is_training=True):
   """The MobileNetV2+FPN backbone for CenterNet."""
   
   network = mobilenet_v2.mobilenet_v2(
-      alpha=depth_multiplier,
-      weights='imagenet' if depth_multiplier == 1.0 else None)  # Adjust weights argument
+      alpha=depth_multiplier)
   
   return CenterNetMobileNetV2FPNFeatureExtractor(
       network,
