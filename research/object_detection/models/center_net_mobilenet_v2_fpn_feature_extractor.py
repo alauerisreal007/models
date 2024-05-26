@@ -175,8 +175,7 @@ def mobilenet_v2_fpn(channel_means=None, channel_stds=None, bgr_ordering=False,
 
   # Set to batchnorm_training to True for now.
   network = mobilenet_v2.mobilenet_v2(
-      alpha=depth_multiplier,
-      weights='imagenet' if depth_multiplier == 1.0 else None)
+      alpha=depth_multiplier)
   
   return CenterNetMobileNetV2FPNFeatureExtractor(
       network,
