@@ -273,14 +273,15 @@ class _LayersOverride(object):
     return getattr(tf.keras.layers, item)
 
 
-def mobilenet_v2(batchnorm_training,
-                 default_batchnorm_momentum=0.9997,
-                 conv_hyperparams=None,
-                 use_explicit_padding=False,
-                 alpha=1.0,
-                 min_depth=None,
-                 conv_defs=None,
-                 **kwargs):
+# def mobilenet_v2(batchnorm_training,
+#                  default_batchnorm_momentum=0.9997,
+#                  conv_hyperparams=None,
+#                  use_explicit_padding=False,
+#                  alpha=1.0,
+#                  min_depth=None,
+#                  conv_defs=None,
+#                  **kwargs):
+def mobilenet_v2(alpha=1.0):
   """Instantiates the MobileNetV2 architecture, modified for object detection.
 
   This wraps the MobileNetV2 tensorflow Keras application, but uses the
@@ -320,15 +321,19 @@ def mobilenet_v2(batchnorm_training,
   Returns:
       A Keras model instance.
   """
-  layers_override = _LayersOverride(
-      batchnorm_training,
-      default_batchnorm_momentum=default_batchnorm_momentum,
-      conv_hyperparams=conv_hyperparams,
-      use_explicit_padding=use_explicit_padding,
-      min_depth=min_depth,
-      alpha=alpha,
-      conv_defs=conv_defs)
-  return tf.keras.applications.MobileNetV2(alpha=alpha,
-                                           layers=layers_override,
-                                           **kwargs)
+  # layers_override = _LayersOverride(
+  #     batchnorm_training,
+  #     default_batchnorm_momentum=default_batchnorm_momentum,
+  #     conv_hyperparams=conv_hyperparams,
+  #     use_explicit_padding=use_explicit_padding,
+  #     min_depth=min_depth,
+  #     alpha=alpha,
+  #     conv_defs=conv_defs)
+  # return tf.keras.applications.MobileNetV2(alpha=alpha,
+  #                                          layers=layers_override,
+  #                                          **kwargs)
+  return tf.keras.applications.MobileNetV2(input_shape=(224, 224, 3),
+                                             alpha=alpha,
+                                             include_top=False,
+                                             weights='imagenet')
 # pylint: enable=invalid-name

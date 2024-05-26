@@ -22,7 +22,7 @@
 import tensorflow.compat.v1 as tf
 
 from object_detection.meta_architectures import center_net_meta_arch
-from object_detection.models.keras_models import mobilenet_v2 as mobilenetv2
+from object_detection.models.keras_models import mobilenet_v2
 
 
 _MOBILENET_V2_FPN_SKIP_LAYERS = [
@@ -142,22 +142,25 @@ class CenterNetMobileNetV2FPNFeatureExtractor(
     return 1
 
 
-def mobilenet_v2_fpn(channel_means, channel_stds, bgr_ordering,
-                     use_separable_conv=False, depth_multiplier=1.0,
-                     upsampling_interpolation='nearest', **kwargs):
+# def mobilenet_v2_fpn(channel_means, channel_stds, bgr_ordering,
+#                      use_separable_conv=False, depth_multiplier=1.0,
+#                      upsampling_interpolation='nearest', **kwargs):
+def mobilenet_v2_fpn(alpha=1.0):
   """The MobileNetV2+FPN backbone for CenterNet."""
-  del kwargs
+  # del kwargs
 
   # Set to batchnorm_training to True for now.
-  network = mobilenetv2.mobilenet_v2(
-      batchnorm_training=True,
-      alpha=depth_multiplier,
-      include_top=False,
-      weights='imagenet' if depth_multiplier == 1.0 else None)
-  return CenterNetMobileNetV2FPNFeatureExtractor(
-      network,
-      channel_means=channel_means,
-      channel_stds=channel_stds,
-      bgr_ordering=bgr_ordering,
-      use_separable_conv=use_separable_conv,
-      upsampling_interpolation=upsampling_interpolation)
+  # network = mobilenetv2.mobilenet_v2(
+  #     batchnorm_training=True,
+  #     alpha=depth_multiplier,
+  #     include_top=False,
+  #     weights='imagenet' if depth_multiplier == 1.0 else None)
+  network = mobilenet_v2.mobilenet_v2(alpha=alpha)
+  # return CenterNetMobileNetV2FPNFeatureExtractor(
+  #     network,
+  #     channel_means=channel_means,
+  #     channel_stds=channel_stds,
+  #     bgr_ordering=bgr_ordering,
+  #     use_separable_conv=use_separable_conv,
+  #     upsampling_interpolation=upsampling_interpolation)
+  return network
