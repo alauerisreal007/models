@@ -44,12 +44,8 @@ def _get_padding_for_kernel_size(kernel_size):
 
 
 def batchnorm():
-  try:
-    return tf.keras.layers.experimental.SyncBatchNormalization(
-        name='batchnorm', epsilon=1e-5, momentum=0.1)
-  except AttributeError:
     return tf.keras.layers.BatchNormalization(
-        name='batchnorm', epsilon=1e-5, momentum=0.1, fused=BATCH_NORM_FUSED)
+        name='batchnorm', epsilon=1e-5, momentum=0.1)
 
 
 class ConvolutionalBlock(tf.keras.layers.Layer):
