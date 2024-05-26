@@ -1187,69 +1187,45 @@ def _build_center_net_model(center_net_config, is_training, add_summaries):
       output_prediction_dict=center_net_config.output_prediction_dict)
 
 
-# def _build_center_net_feature_extractor(feature_extractor_config):
-#   """Build a CenterNet feature extractor from the given config."""
-
-#   if feature_extractor_config.type not in CENTER_NET_EXTRACTOR_FUNCTION_MAP:
-#     raise ValueError('\'{}\' is not a known CenterNet feature extractor type'
-#                      .format(feature_extractor_config.type))
-#   # For backwards compatibility:
-#   use_separable_conv = (
-#       feature_extractor_config.use_separable_conv or
-#       feature_extractor_config.type == 'mobilenet_v2_fpn_sep_conv')
-#   kwargs = {
-#       'channel_means':
-#           list(feature_extractor_config.channel_means),
-#       'channel_stds':
-#           list(feature_extractor_config.channel_stds),
-#       'bgr_ordering':
-#           feature_extractor_config.bgr_ordering,
-#   }
-#   if feature_extractor_config.HasField('depth_multiplier'):
-#     kwargs.update({
-#         'depth_multiplier': feature_extractor_config.depth_multiplier,
-#     })
-#   if feature_extractor_config.HasField('use_separable_conv'):
-#     kwargs.update({
-#         'use_separable_conv': use_separable_conv,
-#     })
-#   if feature_extractor_config.HasField('upsampling_interpolation'):
-#     kwargs.update({
-#         'upsampling_interpolation':
-#             feature_extractor_config.upsampling_interpolation,
-#     })
-#   if feature_extractor_config.HasField('use_depthwise'):
-#     kwargs.update({
-#         'use_depthwise': feature_extractor_config.use_depthwise,
-#     })
-
-
-#   return CENTER_NET_EXTRACTOR_FUNCTION_MAP[feature_extractor_config.type](
-#       **kwargs)
 def _build_center_net_feature_extractor(feature_extractor_config, is_training):
   """Build a CenterNet feature extractor from the given config."""
 
   if feature_extractor_config.type not in CENTER_NET_EXTRACTOR_FUNCTION_MAP:
     raise ValueError('\'{}\' is not a known CenterNet feature extractor type'
                      .format(feature_extractor_config.type))
-  
   # For backwards compatibility:
   use_separable_conv = (
       feature_extractor_config.use_separable_conv or
       feature_extractor_config.type == 'mobilenet_v2_fpn_sep_conv')
-
   kwargs = {
-      'channel_means': list(feature_extractor_config.channel_means),
-      'channel_stds': list(feature_extractor_config.channel_stds),
-      'bgr_ordering': feature_extractor_config.bgr_ordering,
-      'depth_multiplier': feature_extractor_config.depth_multiplier if feature_extractor_config.HasField('depth_multiplier') else 1.0,
-      'use_separable_conv': use_separable_conv,
-      'upsampling_interpolation': feature_extractor_config.upsampling_interpolation if feature_extractor_config.HasField('upsampling_interpolation') else 'nearest',
-      'is_training': is_training  # Tambahkan argumen is_training jika diperlukan
+      'channel_means':
+          list(feature_extractor_config.channel_means),
+      'channel_stds':
+          list(feature_extractor_config.channel_stds),
+      'bgr_ordering':
+          feature_extractor_config.bgr_ordering,
   }
+  if feature_extractor_config.HasField('depth_multiplier'):
+    kwargs.update({
+        'depth_multiplier': feature_extractor_config.depth_multiplier,
+    })
+  if feature_extractor_config.HasField('use_separable_conv'):
+    kwargs.update({
+        'use_separable_conv': use_separable_conv,
+    })
+  if feature_extractor_config.HasField('upsampling_interpolation'):
+    kwargs.update({
+        'upsampling_interpolation':
+            feature_extractor_config.upsampling_interpolation,
+    })
+  if feature_extractor_config.HasField('use_depthwise'):
+    kwargs.update({
+        'use_depthwise': feature_extractor_config.use_depthwise,
+    })
 
-  return CENTER_NET_EXTRACTOR_FUNCTION_MAP[feature_extractor_config.type](**kwargs)
 
+  return CENTER_NET_EXTRACTOR_FUNCTION_MAP[feature_extractor_config.type](
+      **kwargs)
 
 
 META_ARCH_BUILDER_MAP = {
